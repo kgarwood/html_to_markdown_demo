@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" class="govuk-template">
+<head>
+  <meta charset="utf-8">
+  <title>govuk-miller-columns examples</title>
+  <link href="lib/main.css" rel="stylesheet">
+  <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
+</head>
+<body class="govuk-template__body">
+  <script>
+    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+  </script>
+  <div class="govuk-width-container">
+    <main class="govuk-main-wrapper">
+      <h1>Paste Rich Text Here</h1>
+      <textarea id="paste_area" rows="5" cols="80">
+      </textarea>
+      <br>
+      <div class="output_panel">
+        <h4>
+          HTML for Rich Text
+        </h4>
+        <div id='rich_html_info'>
+        </div>
+      </div>
+
+      <div class="output_panel">
+        <h4>
+          Stripped HTML
+        </h4>
+        <div id='stripped_html_info'>
+        </div>
+      </div>
+
+      <div class="output_panel">
+        <h4>
+          Markdown
+        </h4>
+        <div>
+          <pre id='markdown_info'>
+          </pre>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="lib/sanitize-html.min.js"></script>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  <script type="text/javascript"  src="./index.js"></script>
+
+  <script>
+    function pasteIntoTextArea(e) {
+      //This is the HTML used to render the text that is pasted to the clip
+      //board.
+      var html_for_rtf = e.clipboardData.getData('text/html')
+
+      //This is the HTML after we've applied white listing of allowable tags
+      //and attributes
+      var simplified_html = remove_unsupported_html_features(html_for_rtf);
+      var markdown_text = convert_html_to_markdown(simplified_html);
+
+      e.preventDefault();
+
+      document.getElementById("rich_html_info").textContent = html_for_rtf;
+      document.getElementById("stripped_html_info").textContent = simplified_html;
+      document.getElementById("markdown_info").innerHTML = markdown_text
+    }
+    document.getElementById("paste_area").addEventListener("paste", pasteIntoTextArea);
+  </script>
+
+  </body>
+</html>
