@@ -3,15 +3,15 @@ Temporary repository for a demo showing how pasted RTF can be converted to
 markdown.
 
 
-Clone this repository and view app/harness_demo.html in a browser.
+1. Clone this repository and view app/harness_demo.html in a browser.
 
-View app/harness_demo.html in a browser.
+2. View app/harness_demo.html in a browser.
 
-Open the test data in tests/SampleRichTextFormatData.odt
+3. Open the test data in tests/SampleRichTextFormatData.odt
 
-Copy all of the document
+4. Copy all of the document to the clipboard.
 
-Paste it into the text area of harness_demo.html
+5. Paste it into the text area of app/harness_demo.html
 
 You should see three main ouptut areas:
  - HTML for rich text, which shows all the HTML that is used to support
