@@ -13,8 +13,7 @@
   <div class="govuk-width-container">
     <main class="govuk-main-wrapper">
       <h1>Paste Rich Text Here</h1>
-      <textarea id="paste_area" rows="5" cols="80">
-      </textarea>
+      <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"/></textarea>
       <br>
       <div class="output_panel">
         <h4>
@@ -29,16 +28,6 @@
           Stripped HTML
         </h4>
         <div id='stripped_html_info'>
-        </div>
-      </div>
-
-      <div class="output_panel">
-        <h4>
-          Markdown
-        </h4>
-        <div>
-          <pre id='markdown_info'>
-          </pre>
         </div>
       </div>
     </main>
@@ -61,9 +50,9 @@
 
       e.preventDefault();
 
+      document.getElementById("paste_area").value = markdown_text;
       document.getElementById("rich_html_info").textContent = html_for_rtf;
       document.getElementById("stripped_html_info").textContent = simplified_html;
-      document.getElementById("markdown_info").innerHTML = markdown_text
     }
     document.getElementById("paste_area").addEventListener("paste", pasteIntoTextArea);
   </script>
