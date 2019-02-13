@@ -21,6 +21,12 @@
         </thead>
       </p>
       <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"/></textarea>
+
+      <select id="pasteFormat">
+        <option value="text/html" selected="selected">HTML</option>
+        <option value="text/plain">Plain Text</option>
+      </select>
+
       <br>
       <div class="output_panel">
         <h4>
@@ -56,7 +62,10 @@
     function pasteIntoTextArea(pasteEvent) {
       //This is the HTML used to render the text that is pasted to the clip
       //board.
-      var htmlForRtf = pasteEvent.clipboardData.getData('text/html')
+
+      var pasteFormatSelectElement = document.getElementById("pasteFormat");
+      var selectFormat = pasteFormatSelectElement.options[pasteFormatSelectElement.selectedIndex].value;
+      var htmlForRtf = pasteEvent.clipboardData.getData(selectFormat)
 
       //This is the HTML after we've applied white listing of allowable tags
       //and attributes
