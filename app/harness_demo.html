@@ -65,7 +65,14 @@
 
       var pasteFormatSelectElement = document.getElementById("pasteFormat");
       var selectFormat = pasteFormatSelectElement.options[pasteFormatSelectElement.selectedIndex].value;
-      var htmlForRtf = pasteEvent.clipboardData.getData(selectFormat)
+
+      var htmlForRtf = ''
+      if (window.clipboardData && window.clipboardData.getData) { // IE
+        htmlForRtf = window.clipboardData.getData('Text');
+      }
+      else {
+        htmlForRtf = pasteEvent.clipboardData.getData(selectFormat)
+      }
 
       //This is the HTML after we've applied white listing of allowable tags
       //and attributes
