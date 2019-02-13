@@ -38,24 +38,32 @@
   <script type="text/javascript"  src="./index.js"></script>
 
   <script>
-    function pasteIntoTextArea(e) {
+    function pasteIntoTextArea(pasteEvent) {
       //This is the HTML used to render the text that is pasted to the clip
       //board.
-      var html_for_rtf = e.clipboardData.getData('text/html')
+      var htmlForRtf = pasteEvent.clipboardData.getData('text/html')
 
       //This is the HTML after we've applied white listing of allowable tags
       //and attributes
-      var simplified_html = remove_unsupported_html_features(html_for_rtf);
-      var markdown_text = convert_html_to_markdown(simplified_html);
+      var simplifiedHtml = remove_unsupported_html_features(htmlForRtf);
+      var markdownText = convert_html_to_markdown(simplifiedHtml);
 
-      e.preventDefault();
+      pasteEvent.preventDefault();
 
-      document.getElementById("paste_area").value = markdown_text;
-      document.getElementById("rich_html_info").textContent = html_for_rtf;
-      document.getElementById("stripped_html_info").textContent = simplified_html;
+      var textAreaElement = document.getElementById("paste_area");
+      var currentSelectionRange = getInputSelection(textAreaElement);
+      var currentText = document.getElementById("paste_area").value
+      var modifiedTextData = insert_text(currentText,
+                                         currentSelectionRange['start'],
+                                         currentSelectionRange['end'],
+                                         markdownText);
+
+      document.getElementById("paste_area").value = modifiedTextData[0];
+      document.getElementById("paste_area").selectionEnd = modifiedTextData[1];
+      document.getElementById("rich_html_info").textContent = htmlForRtf;
+      document.getElementById("stripped_html_info").textContent = simplifiedHtml;
     }
     document.getElementById("paste_area").addEventListener("paste", pasteIntoTextArea);
   </script>
-
   </body>
 </html>
