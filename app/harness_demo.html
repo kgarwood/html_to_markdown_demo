@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
 <head>
   <meta charset="utf-8">
-  <title>RTF Copy and Paste Test Harness</title>
+  <title>Demo: Copy and Paste for Markdown Output</title>
   <link href="lib/main.css" rel="stylesheet">
   <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
 </head>
@@ -12,13 +12,24 @@
   </script>
   <div class="govuk-width-container">
     <main class="govuk-main-wrapper">
-      <h1>Paste Rich Text Here</h1>
+      <h1>Demo: Copy and Paste for Markdown Output</h1>
+      <p>
+        Try copying publishing data from various word processing apps
+        (eg: Microsoft Word, LibreOffice, GoogleDocs) and pasting it into
+        the text field below.  This demo generates the markdown code for the
+        pasted text.
+        </thead>
+      </p>
       <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"/></textarea>
       <br>
       <div class="output_panel">
         <h4>
-          HTML for Rich Text
+          Initial Pasted HTML
         </h4>
+        <p>
+          This section shows the initial HTML code that is generated
+          to support the pasted text.
+        </p>
         <div id='rich_html_info'>
         </div>
       </div>
@@ -27,6 +38,10 @@
         <h4>
           Stripped HTML
         </h4>
+        <p>
+          This section shows how the HTML is stripped to only include
+          features we want to show in markdown.
+        </p>
         <div id='stripped_html_info'>
         </div>
       </div>
