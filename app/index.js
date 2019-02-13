@@ -9,6 +9,16 @@ function convert_html_to_markdown(simplified_html) {
   // than the default '*'
   var turndownServiceOptions = {headingStyle: 'atx', bulletListMarker: '-'}
   var turndownService = new TurndownService(turndownServiceOptions);
+
+  //Turndown does not appear to directly support interpretting an HTML
+  //abbr tag.
+  turndownService.addRule('abbr', {
+    filter: ['abbr'],
+    replacement: function (content, node, options) {
+      return ('*[' + content + ']:' + node.getAttribute('title'));
+    }
+  })
+
   return turndownService.turndown(simplified_html);
 }
 
@@ -16,10 +26,11 @@ function remove_unsupported_html_features(html) {
   //'code', 'pre' are not supported.  We discussed with Ben H and he
   //suggested we do not need it
   var white_listed_tags = [
-    'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'abbr', 'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
     'ul', 'ol', 'li', 'a', 'cite', 'br', 'p']
   var white_listed_attributes = {
-    'a': [ 'href', 'mailto']
+    'a': [ 'href', 'mailto'],
+    'abbr': ['title']
   }
   //Sometimes the HTML for pasted RTF uses 'cite' instead of 'blockquote'
   //But in sanitizeHtml you can specify transformations to convert the
