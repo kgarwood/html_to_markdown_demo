@@ -16,7 +16,7 @@ function remove_unsupported_html_features(html) {
   //'code', 'pre' are not supported.  We discussed with Ben H and he
   //suggested we do not need it
   var white_listed_tags = [
-    'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
     'ul', 'ol', 'li', 'a', 'cite', 'br', 'p']
   var white_listed_attributes = {
     'a': [ 'href', 'mailto']
