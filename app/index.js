@@ -20,17 +20,13 @@ function convert_html_to_markdown(simplified_html, tableProcessingPolicy) {
   });
 
   if (tableProcessingPolicy == 'preserveHtmlTags') {
+    //Keep table tags in final markdown output
+    console.log("preserve HTML tags");
     turndownService.keep(['table', 'tr', 'td', 'th']);
-    turndownService.remove('tbody');
-
-    turndownService.addRule('strikethrough', {
-      filter: ['table'],
-      replacement: function (content) {
-        return '~' + table + '~'
-      }
-    });
   }
   else if (tableProcessingPolicy=='renderPlainTextTable') {
+    //Use a table processing plugin to render plain text tables
+    console.log("render plain text table");
     var gfm = turndownPluginGfm.gfm
     turndownService.use(gfm);
   }

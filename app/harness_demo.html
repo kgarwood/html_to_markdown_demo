@@ -10,10 +10,11 @@
   <script>
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
   </script>
+  <script type="text/javascript" src="lib/main.css"></script>
   <div class="govuk-width-container">
     <main class="govuk-main-wrapper">
-      <h1>Demo: Copy and Paste for Markdown Output</h1>
-      <p>
+      <h1  class="govuk-heading-l">Demo: Copy and Paste for Markdown Output</h1>
+      <p class="govuk-body-m">
         Try copying publishing data from various word processing apps
         (eg: Microsoft Word, LibreOffice, GoogleDocs) and pasting it into
         the text field below.  This demo generates the markdown code for the
@@ -22,40 +23,44 @@
       </p>
       <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"></textarea>
 
-      <select id="pasteFormat">
+      <label class="govuk-body-m">Format of data copied from clipboard:</label>
+      <select id="pasteFormat" class="govuk-body-m">
         <option value="text/html" selected="selected">HTML</option>
         <option value="text/plain">Plain Text</option>
         <option value="markdown">Markdown</option>
       </select>
 
-      <select id="tableProcessingPolicy">
+      <p>
+      </p>
+      <label class="govuk-body-m">Policy for handling pasted HTML tables:</label>
+      <select id="tableProcessingPolicy"  class="govuk-body-m">
         <option value="ignoreHtmlTables" selected="selected">Ignore HTML tags for tables</option>
         <option value="preserveHtmlTags">Retain HTML table tags in markdown</option>
         <option value="renderPlainTextTable">Render plain text table</option>
       </select>
-
+      <hr>
       <br>
       <div class="output_panel">
-        <h4>
+        <h4 class="govuk-heading-s">
           Initial Pasted HTML
         </h4>
-        <p>
+        <p class="govuk-body-m">
           This section shows the initial HTML code that is generated
           to support the pasted text.
         </p>
-        <div id='rich_html_info'>
+        <div id='rich_html_info' class="govuk-body-m">
         </div>
       </div>
 
       <div class="output_panel">
-        <h4>
+        <h4 class="govuk-heading-s">
           Stripped HTML
         </h4>
-        <p>
+        <p class="govuk-body-m">
           This section shows how the HTML is stripped to only include
           features we want to show in markdown.
         </p>
-        <div id='stripped_html_info'>
+        <div id='stripped_html_info' class="govuk-body-m">
         </div>
       </div>
     </main>
