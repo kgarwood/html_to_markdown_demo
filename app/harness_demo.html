@@ -25,6 +25,7 @@
       <select id="pasteFormat">
         <option value="text/html" selected="selected">HTML</option>
         <option value="text/plain">Plain Text</option>
+        <option value="markdown">Markdown</option>
       </select>
 
       <select id="tableProcessingPolicy">
@@ -73,6 +74,15 @@
       var pasteFormatSelectElement = document.getElementById("pasteFormat");
       var selectFormat = pasteFormatSelectElement.options[pasteFormatSelectElement.selectedIndex].value;
 
+      if (selectFormat == 'markdown') {
+        document.getElementById("paste_area").value = modifiedTextData[0];
+        document.getElementById("paste_area").selectionEnd = modifiedTextData[1];
+        document.getElementById("rich_html_info").textContent = htmlForRtf;
+        document.getElementById("stripped_html_info").textContent = simplifiedHtml;
+        return;
+      }
+
+
       var tableProcessingPolicyElement = document.getElementById("tableProcessingPolicy");
       var tableProcessingPolicy = tableProcessingPolicyElement.options[tableProcessingPolicyElement.selectedIndex].value;
 
@@ -87,7 +97,13 @@
       //This is the HTML after we've applied white listing of allowable tags
       //and attributes
       var simplifiedHtml = remove_unsupported_html_features(htmlForRtf, tableProcessingPolicy);
-      var markdownText = convert_html_to_markdown(simplifiedHtml, tableProcessingPolicy);
+      var markdownText;
+      if (selectFormat == 'markdown') {
+        markdownText = simplifiedHtml;
+      }
+      else {
+        markdownText = convert_html_to_markdown(simplifiedHtml, tableProcessingPolicy);
+      }
 
       pasteEvent.preventDefault();
 
