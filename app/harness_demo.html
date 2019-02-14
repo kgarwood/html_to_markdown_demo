@@ -20,11 +20,17 @@
         pasted text.
         </thead>
       </p>
-      <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"/></textarea>
+      <textarea class="govuk-textarea" id="paste_area" autofocus rows="10"></textarea>
 
       <select id="pasteFormat">
         <option value="text/html" selected="selected">HTML</option>
         <option value="text/plain">Plain Text</option>
+      </select>
+
+      <select id="tableProcessingPolicy">
+        <option value="ignoreHtmlTables" selected="selected">Ignore HTML tags for tables</option>
+        <option value="preserveHtmlTags">Retain HTML table tags in markdown</option>
+        <option value="renderPlainTextTable">Render plain text table</option>
       </select>
 
       <br>
@@ -57,6 +63,7 @@
   <script type="text/javascript" src="lib/sanitize-html.min.js"></script>
   <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
   <script type="text/javascript"  src="./index.js"></script>
+  <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
 
   <script>
     function pasteIntoTextArea(pasteEvent) {
@@ -65,6 +72,9 @@
 
       var pasteFormatSelectElement = document.getElementById("pasteFormat");
       var selectFormat = pasteFormatSelectElement.options[pasteFormatSelectElement.selectedIndex].value;
+
+      var tableProcessingPolicyElement = document.getElementById("tableProcessingPolicy");
+      var tableProcessingPolicy = tableProcessingPolicyElement.options[tableProcessingPolicyElement.selectedIndex].value;
 
       var htmlForRtf = ''
       if (window.clipboardData && window.clipboardData.getData) { // IE
@@ -76,8 +86,8 @@
 
       //This is the HTML after we've applied white listing of allowable tags
       //and attributes
-      var simplifiedHtml = remove_unsupported_html_features(htmlForRtf);
-      var markdownText = convert_html_to_markdown(simplifiedHtml);
+      var simplifiedHtml = remove_unsupported_html_features(htmlForRtf, tableProcessingPolicy);
+      var markdownText = convert_html_to_markdown(simplifiedHtml, tableProcessingPolicy);
 
       pasteEvent.preventDefault();
 

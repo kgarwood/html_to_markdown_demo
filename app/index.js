@@ -1,5 +1,5 @@
 
-function convert_html_to_markdown(simplified_html) {
+function convert_html_to_markdown(simplified_html, tableProcessingPolicy) {
   //TurndownService is a JavaScript solution that converts HTML into
   //markdown.  Some of its default settings produce markdown that does
   //not fit what we want in Govspeak.
@@ -9,7 +9,7 @@ function convert_html_to_markdown(simplified_html) {
   // than the default '*'
   var turndownServiceOptions = {headingStyle: 'atx', bulletListMarker: '-'}
   var turndownService = new TurndownService(turndownServiceOptions);
-  turndownService.keep(['table', 'tr', 'th', 'td'])
+
   //Turndown does not appear to directly support interpretting an HTML
   //abbr tag.
   turndownService.addRule('abbr', {
@@ -17,17 +17,43 @@ function convert_html_to_markdown(simplified_html) {
     replacement: function (content, node, options) {
       return ('*[' + content + ']:' + node.getAttribute('title'));
     }
-  })
+  });
+
+  if (tableProcessingPolicy == 'preserveHtmlTags') {
+    turndownService.keep(['table', 'tr', 'td', 'th']);
+    turndownService.remove('tbody');
+
+    turndownService.addRule('strikethrough', {
+      filter: ['table'],
+      replacement: function (content) {
+        return '~' + table + '~'
+      }
+    });
+  }
+  else if (tableProcessingPolicy=='renderPlainTextTable') {
+    var gfm = turndownPluginGfm.gfm
+    turndownService.use(gfm);
+  }
 
   return turndownService.turndown(simplified_html);
 }
 
-function remove_unsupported_html_features(html) {
+function remove_unsupported_html_features(html, tableProcessingPolicy) {
   //'code', 'pre' are not supported.  We discussed with Ben H and he
   //suggested we do not need it
-  var white_listed_tags = [
-    'abbr', 'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'ul', 'ol', 'li', 'a', 'cite', 'br', 'p', 'table', 'tr', 'td', 'th']
+  var white_listed_tags;
+
+  if (tableProcessingPolicy == 'ignoreHtmlTables') {
+    white_listed_tags = [
+      'abbr', 'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'a', 'cite', 'br', 'p'];
+  }
+  else {
+    white_listed_tags = [
+      'abbr', 'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'a', 'cite', 'br', 'p', 'table', 'tr', 'td', 'th'];
+  }
+
   var white_listed_attributes = {
     'a': [ 'href', 'mailto'],
     'abbr': ['title']
