@@ -10,6 +10,14 @@ function convert_html_to_markdown(simplified_html, tableProcessingPolicy) {
   var turndownServiceOptions = {headingStyle: 'atx', bulletListMarker: '-'}
   var turndownService = new TurndownService(turndownServiceOptions);
 
+  TurndownService.prototype.escape = function(str) {
+    //overriding turndown's escape function, whose normal search and
+    //replace features to escape special characters is causing pasted
+    //markdown text to appear escaped.  This is simply a way of turning it
+    //off but may have side effects.
+     return str;
+  }
+
   //Turndown does not appear to directly support interpretting an HTML
   //abbr tag.
   turndownService.addRule('abbr', {

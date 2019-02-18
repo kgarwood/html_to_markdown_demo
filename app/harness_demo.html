@@ -95,7 +95,16 @@
         htmlForRtf = window.clipboardData.getData('Text');
       }
       else {
-        htmlForRtf = pasteEvent.clipboardData.getData(selectFormat)
+        if (selectFormat == 'text/html') {
+          htmlForRtf = pasteEvent.clipboardData.getData(selectFormat);
+          if (htmlForRtf == '') {
+            htmlForRtf = "<code>" + pasteEvent.clipboardData.getData("text/plain") + "</code>";
+          }
+        }
+        else {
+          htmlForRtf = "<code>" + pasteEvent.clipboardData.getData("text/plain") + "</code>";
+          console.log(htmlForRtf);
+        }
       }
 
       //This is the HTML after we've applied white listing of allowable tags
