@@ -2,17 +2,20 @@
 Temporary repository for a demo showing how pasted RTF can be converted to
 markdown.
 
-1. Clone this repository and view app/harness_demo.html in a browser.
+Try copying and pasting content from plain text and RTF editors into
+the [demo](https://kgarwood.github.io/html_to_markdown_demo/app/harness_demo.html).
 
-2. View app/harness_demo.html in a browser.
+1. Clone this repository and view `app/harness_demo.html` in a browser.
 
-3. Open the test data in tests/SampleRichTextFormatData.odt
+2. View `app/harness_demo.html` in a browser.
+
+3. Open the test data in `tests/SampleRichTextFormatData.odt`
 
 4. Copy all of the document to the clipboard.
 
-5. Paste it into the text area of app/harness_demo.html
+5. Paste it into the text area of `app/harness_demo.html`
 
-You should see three main ouptut areas:
+You should see three main output areas:
  - HTML for rich text, which shows all the HTML that is used to support
    the rich text format data you pasted into the main text area.
  - Stripped HTML, which strips out HTML tags and attributes that will not
@@ -44,26 +47,38 @@ preserve HTML code if it matches a white list of accepted tags and a white list 
 accepted tag attributes. It also supports transformations which allow one kind of tag
 found in the input as another kind of tag in the output. In this demo, only the following
 tags are accepted:
-* headings: h2...h6
-* lists and their elements: ul, ol, li
-* paragraphs: p
-* block texts: blockquote and cite
-* anchor tags: a, along with href attributes. (no images)
-* line break character: br
+* headings: `h2...h6`
+* lists and their elements: `ul, ol, li`
+* paragraphs: `p`
+* block texts: `blockquote` and `cite`
+* anchor tags: `a`, along with `href` attributes. (no images)
+* line break character: `br`
 
 The demo only uses one transformation: it converts cite to blockquote tags.
 
 ##Configuring Turndown
 [Turndown](https://github.com/domchristie/turndown) turns HTML into Markdown but some
 of its default settings have had to be altered. They include:
-* rendering list items using "-" rather than "\*"
+* rendering list items using `-` rather than `*`
 * rendering headings using sequences of # characters rather than through different kinds of
 underlines.
 
 # Design Issues
 
 ## Word Processing Issue: Variance in how applications copy to the clipboard
+In the scenario where users copy and paste data from an RTF editor, the
+conversion to Markdown will be dependent on how that editor copies data to
+the clip board.  
 
+Copying HTML code from a plain text editor provides the most predictable
+markdown output because all the HTML codes from the content are fed to
+sanitize-html, which is then fed to Turndown.  
+
+But trying to copy and paste Rich Text assumes that the RTF editor will
+use HTML tags that can be processed by the demo.  During testing, it seemed
+that few editors would generate HTML tags such as `abbr`, `blockquote`,
+and `cite`.  Tables were another problem: many RTF editors would use HTML
+spans to support rendering a table.
 
 ## Cross-Browser JavaScript Issue: Support in IE11
 Each kind of browser uses an API to interact with the clipboard scratch space,
@@ -109,8 +124,8 @@ users to have more say in how they would intend a potentially large amount of
 copied data to be processed.
 
 When user select the HTML format option and paste into the text area, the demo
-first tries to get data from the clipboard using ```text/html```.  
-If that returns nothing, it tries again using ```text/plain```. Otherwise,
+first tries to get data from the clipboard using `text/html`.  
+If that returns nothing, it tries again using `text/plain`. Otherwise,
 the demo does not attempt to interrogate the clip board data to determine if
 it should be read using one format or another.
 
@@ -135,7 +150,7 @@ behaviour should be well tested to identify any characters that still should be 
 Markdown has no specific support for tables and in many projects, HTML codes
 for formatting tables are just left in the Markdown code. The demo lets you try
 out three different policies for handling tables:
-* ignore all HTML codes used to describe tables (table, td, tr, th tags)
+* ignore all HTML codes used to describe tables (`table`, `td`, `tr`, `th` tags)
 * preserve HTML tags
 * try to convert HTML table tags into a plain text table
 
@@ -149,7 +164,7 @@ that supports Github flavoured markedown extensions. It has been developed by
 Dom Christie, the same author of Turndown.  
 
 In the preserve HTML tags option, the output will retain all the HTML table
-tags as well as the `<tbody>` tag.  I'm not yet clear why it does this.
+tags as well as the `<tbody> tag.  I'm not yet clear why it does this.
 
 In the option for converting HTML table tags, if the plugin is unable to process
 the HTML table tags, it will by default just preserve them like the other option.
