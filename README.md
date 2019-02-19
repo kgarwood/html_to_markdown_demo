@@ -164,7 +164,7 @@ that supports Github flavoured markedown extensions. It has been developed by
 Dom Christie, the same author of Turndown.  
 
 In the preserve HTML tags option, the output will retain all the HTML table
-tags as well as the `<tbody> tag.  I'm not yet clear why it does this.
+tags as well as the `<tbody>` tag.  I'm not yet clear why it does this.
 
 In the option for converting HTML table tags, if the plugin is unable to process
 the HTML table tags, it will by default just preserve them like the other option.
