@@ -29,12 +29,10 @@ function convert_html_to_markdown(simplified_html, tableProcessingPolicy) {
 
   if (tableProcessingPolicy == 'preserveHtmlTags') {
     //Keep table tags in final markdown output
-    console.log("preserve HTML tags");
     turndownService.keep(['table', 'tr', 'td', 'th']);
   }
   else if (tableProcessingPolicy=='renderPlainTextTable') {
     //Use a table processing plugin to render plain text tables
-    console.log("render plain text table");
     var gfm = turndownPluginGfm.gfm
     turndownService.use(gfm);
   }
@@ -48,6 +46,9 @@ function remove_unsupported_html_features(html, tableProcessingPolicy) {
   var white_listed_tags;
 
   if (tableProcessingPolicy == 'ignoreHtmlTables') {
+    //by not including table tags here, Turndown will not have to deal
+    //with them when it interprets the simplified HTML produced by
+    //sanitize
     white_listed_tags = [
       'abbr', 'blockquote', 'h2', 'h3', 'h4', 'h5', 'h6',
       'ul', 'ol', 'li', 'a', 'cite', 'br', 'p'];
@@ -76,7 +77,13 @@ function remove_unsupported_html_features(html, tableProcessingPolicy) {
 function getInputSelection(textAreaElement) {
   // Adapted from code at
   // https://ourcodeworld.com/articles/read/282/how-to-get-the-current-cursor-position-and-selection-within-a-text-input-or-textarea-in-javascript
-  // which is available under MIT
+  // which is available under MIT licence
+
+  //The important part of this code is that it is not trying to determine
+  //a current cursor position but start and end positions for the block of
+  //currently selected text in the text area.  When no text is selected, then
+  //the start end end positions of the selection area are both the position of
+  //the cursor.
   var start = 0;
   var end = 0;
   var normalizedValue;
@@ -131,6 +138,7 @@ function insert_text(current_text,
                      start_selection_position,
                      end_selection_position,
                      text_to_insert) {
+
   before_cursor_text = current_text.substring(0, start_selection_position);
   after_cursor_text = current_text.substring(end_selection_position, current_text.length);
   modified_text = before_cursor_text + text_to_insert + after_cursor_text;
