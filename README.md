@@ -146,6 +146,26 @@ For this demo, the default implementation of the escape() function that escapes 
 has been overidden by another implementation that does no escaping at all.  The new
 behaviour should be well tested to identify any characters that still should be escaped.
 
+Testing shows that if Markdown text is copied and pasted from an RTF editor it works.
+But if it is copied and pasted either from a plain text editor or a text area, the
+Markdown tags are preserved but the newline characters are removed.
+
+Viewing the verbose initial HTML and the stripped HTML in console log output showed that
+in these scenarios, new line characters were being retained even though in the ```<div></div>```
+sections, the newline characters disappeared. It also showed the newline characters disappeared
+in the output from Turndown.
+
+Advice:
+1. I think that the verbose and stripped HTML versions of pasted outputs retain new lines
+   but the ```<div></div>``` elements that show that are somehow losing it.
+2. I suspect Turndown is actually causing new line characters to be stripped in the 
+   final markdown result.  Have a look at [turndown.js](https://github.com/domchristie/turndown/blob/master/src/turndown.js) and
+   trace through uses of ```leadingNewLinesRegExp``` and ```trailingNewLinesRegExp```. I
+   suspect this may somehow be causing new line characters to disappear in these cases.
+
+
+
+
 ## Turndown Issue: Support for Tables
 Markdown has no specific support for tables and in many projects, HTML codes
 for formatting tables are just left in the Markdown code. The demo lets you try
