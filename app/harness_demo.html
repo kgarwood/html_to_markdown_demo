@@ -103,7 +103,7 @@
           }
         }
         else {
-          htmlForRtf = "<code>" + pasteEvent.clipboardData.getData("text/plain") + "</code>";
+          htmlForRtf = pasteEvent.clipboardData.getData("text/plain");
           console.log(htmlForRtf);
         }
       }
