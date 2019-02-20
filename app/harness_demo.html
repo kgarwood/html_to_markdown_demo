@@ -97,9 +97,9 @@
       }
       else {
         if (selectFormat == 'text/html') {
-          htmlForRtf = pasteEvent.clipboardData.getData(selectFormat);
+          htmlForRtf = pasteEvent.clipboardData.getData('text/html');
           if (htmlForRtf == '') {
-            htmlForRtf = "<code>" + pasteEvent.clipboardData.getData("text/plain") + "</code>";
+            htmlForRtf = pasteEvent.clipboardData.getData("text/plain");
           }
         }
         else {
